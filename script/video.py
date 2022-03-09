@@ -46,10 +46,3 @@ class WebcamVideoStream(object):
                 cap.release()
                 time.sleep(2)
                 break
-
-a = WebcamVideoStream()
-a.start()
-while True:
-    cv2.imshow('xxxx', a.read())
-    if cv2.waitKey(25) & 0xFF == ord('q'):
-        break
