@@ -4,11 +4,9 @@ from threading import Thread
 import time
 
 
-class WebcamVideoStream(object):
+class WebcamVideoStream:
     def __init__(self, name="WebcamVideoStream"):
-        self.find_camera_index()
-        self.video_source: int = 0
-        self.stream = cv2.VideoCapture(self.video_source)
+        self.stream = cv2.VideoCapture(self.get_camera_index())
         (self.grabbed, self.frame) = self.stream.read()
         self.frame: np = np.ones((480, 640, 3), dtype=np.uint8)
         self.name: str = name
@@ -37,12 +35,15 @@ class WebcamVideoStream(object):
     def stop(self) -> None:
         self.stopped = True
 
-    def find_camera_index(self) -> None:
+    @staticmethod
+    def get_camera_index() -> int:
         for i in range(0, 5):
             cap = cv2.VideoCapture(i)
             if cap.isOpened():
-                print(f" camera is available at {i}!")
-                self.video_source = i
+                print(f"camera is available at {i} index!")
                 cap.release()
                 time.sleep(2)
-                break
+                return i
+
+
+
